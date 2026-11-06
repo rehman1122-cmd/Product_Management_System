@@ -1,0 +1,25 @@
+@page "{id:int}"
+@model ProductManager.Pages.Products.DeleteModel
+@{
+    ViewData["Title"] = "Delete product";
+}
+
+<div class="form-page">
+    <a class="back-link" asp-page="/Index">← Back to products</a>
+    <section class="form-card delete-card">
+        <p class="eyebrow">REMOVE ITEM</p>
+        <h1>Delete this product?</h1>
+        <p class="delete-warning">This will permanently remove <strong>@Model.Product.Name</strong> from your catalog.</p>
+        <dl class="delete-summary">
+            <div><dt>Category</dt><dd>@Model.Product.Category</dd></div>
+            <div><dt>Price</dt><dd>@Model.Product.Price.ToString("C2")</dd></div>
+            <div><dt>Stock</dt><dd>@Model.Product.Stock</dd></div>
+        </dl>
+        <form method="post">
+            <div class="form-actions">
+                <a class="button button-secondary" asp-page="/Index">Cancel</a>
+                <button class="button button-danger" type="submit">Delete product</button>
+            </div>
+        </form>
+    </section>
+</div>

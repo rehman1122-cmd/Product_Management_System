@@ -1,0 +1,56 @@
+@page "{id:int}"
+@model ProductManager.Pages.Products.EditModel
+@{
+    ViewData["Title"] = "Edit product";
+}
+
+<div class="form-page">
+    <a class="back-link" asp-page="/Index">← Back to products</a>
+    <section class="form-card">
+        <div class="form-heading">
+            <p class="eyebrow">UPDATE ITEM</p>
+            <h1>Edit product</h1>
+            <p>Update the details for <strong>@Model.Product.Name</strong>.</p>
+        </div>
+
+        <form method="post">
+            <input asp-for="Product.Id" type="hidden" />
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            <div class="form-grid">
+                <div class="field field-wide">
+                    <label asp-for="Product.Name"></label>
+                    <input asp-for="Product.Name" class="form-input" />
+                    <span asp-validation-for="Product.Name" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Product.Category"></label>
+                    <input asp-for="Product.Category" class="form-input" />
+                    <span asp-validation-for="Product.Category" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Product.Price"></label>
+                    <input asp-for="Product.Price" class="form-input" type="number" min="0.01" max="99999999" step="0.01" />
+                    <span asp-validation-for="Product.Price" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Product.Stock"></label>
+                    <input asp-for="Product.Stock" class="form-input" type="number" min="0" step="1" />
+                    <span asp-validation-for="Product.Stock" class="field-error"></span>
+                </div>
+                <div class="field field-wide">
+                    <label asp-for="Product.Description"></label>
+                    <textarea asp-for="Product.Description" class="form-input form-textarea" rows="4"></textarea>
+                    <span asp-validation-for="Product.Description" class="field-error"></span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <a class="button button-secondary" asp-page="/Products/Details" asp-route-id="@Model.Product.Id">Cancel</a>
+                <button class="button button-primary" type="submit">Save changes</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

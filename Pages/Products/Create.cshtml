@@ -1,0 +1,55 @@
+@page
+@model ProductManager.Pages.Products.CreateModel
+@{
+    ViewData["Title"] = "Add product";
+}
+
+<div class="form-page">
+    <a class="back-link" asp-page="/Index">← Back to products</a>
+    <section class="form-card">
+        <div class="form-heading">
+            <p class="eyebrow">NEW ITEM</p>
+            <h1>Add a product</h1>
+            <p>Enter the details below to add an item to your catalog.</p>
+        </div>
+
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="validation-summary"></div>
+            <div class="form-grid">
+                <div class="field field-wide">
+                    <label asp-for="Product.Name"></label>
+                    <input asp-for="Product.Name" class="form-input" placeholder="e.g. Everyday Backpack" />
+                    <span asp-validation-for="Product.Name" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Product.Category"></label>
+                    <input asp-for="Product.Category" class="form-input" placeholder="e.g. Accessories" />
+                    <span asp-validation-for="Product.Category" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Product.Price"></label>
+                    <input asp-for="Product.Price" class="form-input" type="number" min="0.01" max="99999999" step="0.01" placeholder="0.00" />
+                    <span asp-validation-for="Product.Price" class="field-error"></span>
+                </div>
+                <div class="field">
+                    <label asp-for="Product.Stock"></label>
+                    <input asp-for="Product.Stock" class="form-input" type="number" min="0" step="1" placeholder="0" />
+                    <span asp-validation-for="Product.Stock" class="field-error"></span>
+                </div>
+                <div class="field field-wide">
+                    <label asp-for="Product.Description"></label>
+                    <textarea asp-for="Product.Description" class="form-input form-textarea" rows="4" placeholder="Add a few details about this product"></textarea>
+                    <span asp-validation-for="Product.Description" class="field-error"></span>
+                </div>
+            </div>
+            <div class="form-actions">
+                <a class="button button-secondary" asp-page="/Index">Cancel</a>
+                <button class="button button-primary" type="submit">Save product</button>
+            </div>
+        </form>
+    </section>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

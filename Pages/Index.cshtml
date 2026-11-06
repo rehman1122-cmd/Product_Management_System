@@ -1,0 +1,99 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Products";
+}
+
+<section class="page-heading">
+    <div>
+        <p class="eyebrow">INVENTORY</p>
+        <h1>Your products</h1>
+        <p class="page-subtitle">A clear view of everything you have in stock.</p>
+    </div>
+    <a class="button button-primary" asp-page="/Products/Create">+ Add product</a>
+</section>
+
+<section class="summary-grid" aria-label="Inventory summary">
+    <article class="summary-card">
+        <span class="summary-label">Products</span>
+        <strong>@Model.Products.Count</strong>
+        <span class="summary-note">in your catalog</span>
+    </article>
+    <article class="summary-card">
+        <span class="summary-label">Categories</span>
+        <strong>@Model.CategoryCount</strong>
+        <span class="summary-note">product groups</span>
+    </article>
+    <article class="summary-card">
+        <span class="summary-label">Units in stock</span>
+        <strong>@Model.TotalStock.ToString("N0")</strong>
+        <span class="summary-note">across all products</span>
+    </article>
+</section>
+
+<section class="content-card">
+    <div class="section-heading">
+        <div>
+            <h2>Product list</h2>
+            <p>Manage your catalog and stock levels.</p>
+        </div>
+        <span class="item-count">@Model.Products.Count @(Model.Products.Count == 1 ? "item" : "items")</span>
+    </div>
+
+    @if (Model.Products.Count == 0)
+    {
+        <div class="empty-state">
+            <div class="empty-icon" aria-hidden="true">+</div>
+            <h3>Your catalog is ready for its first product</h3>
+            <p>Add a product to start keeping track of your inventory.</p>
+            <a class="button button-primary" asp-page="/Products/Create">Add your first product</a>
+        </div>
+    }
+    else
+    {
+        <div class="table-wrap">
+            <table class="product-table">
+                <thead>
+                    <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">Category</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Stock</th>
+                        <th scope="col"><span class="visually-hidden">Actions</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var product in Model.Products)
+                    {
+                        <tr>
+                            <td>
+                                <a class="product-name" asp-page="/Products/Details" asp-route-id="@product.Id">@product.Name</a>
+                                <span class="product-description">@(string.IsNullOrWhiteSpace(product.Description) ? "No description" : product.Description)</span>
+                            </td>
+                            <td><span class="category-pill">@product.Category</span></td>
+                            <td class="price-cell">@product.Price.ToString("C2")</td>
+                            <td>
+                                @if (product.Stock == 0)
+                                {
+                                    <span class="stock-badge stock-out">Out of stock</span>
+                                }
+                                else if (product.Stock < 10)
+                                {
+                                    <span class="stock-badge stock-low">@product.Stock left</span>
+                                }
+                                else
+                                {
+                                    <span class="stock-badge stock-available">@product.Stock in stock</span>
+                                }
+                            </td>
+                            <td class="actions-cell">
+                                <a class="text-action" asp-page="/Products/Edit" asp-route-id="@product.Id">Edit</a>
+                                <a class="text-action text-action-muted" asp-page="/Products/Delete" asp-route-id="@product.Id">Delete</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</section>
